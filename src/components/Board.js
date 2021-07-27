@@ -59,7 +59,7 @@ function Board({ rows, cols }) {
         setTimeout(() => {
           digAdjacent(item, arr);
           setTileArray(arr);
-        }, 100);
+        }, 50);
       setTileArray(arr);
     });
   }

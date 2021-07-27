@@ -1,11 +1,11 @@
-import React from 'react'
+import React from "react";
 
-function Tile() {
-    return (
-        <div>
-            
-        </div>
-    )
+function Tile({ row, col }) {
+  return (
+    <div>
+      <h1>Tile {row + 1 + "X" + (col + 1)}</h1>
+    </div>
+  );
 }
 
-export default Tile
+export default Tile;

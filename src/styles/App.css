@@ -1,0 +1,8 @@
+.tile {
+  background-color: green;
+}
+
+.tile.upside {
+  background-color: red;
+}
+/*# sourceMappingURL=App.css.map */

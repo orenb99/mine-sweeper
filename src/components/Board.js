@@ -7,11 +7,11 @@ function Board({ rows, cols }) {
 
   useEffect(() => {
     let arr = [];
-    let bombs = Math.floor((rows * cols) / 3);
+    let bombs = Math.floor((rows * cols) / 15);
     let bombCount = 0;
     for (let i = 0; i < rows; i++) {
       for (let j = 0; j < cols; j++) {
-        let item = { row: i, col: j, bomb: false };
+        let item = { row: i, col: j, bomb: false, visible: false };
         arr.push(item);
       }
     }
@@ -33,6 +33,13 @@ function Board({ rows, cols }) {
 
   function checkAdjacent(tile, arr) {
     if (tile.bomb) return "bomb";
+    const temp = getAdjacent(tile, arr);
+    const count = temp
+      .map((item) => (item.bomb ? 1 : 0))
+      .reduce((prev, curr) => prev + curr);
+    return count;
+  }
+  function getAdjacent(tile, arr) {
     const row = tile.row;
     const col = tile.col;
     const temp = arr.filter(
@@ -40,15 +47,53 @@ function Board({ rows, cols }) {
         (item.row === row - 1 || item.row === row || item.row === row + 1) &&
         (item.col === col - 1 || item.col === col || item.col === col + 1)
     );
-    const count = temp
-      .map((item) => (item.bomb ? 1 : 0))
-      .reduce((prev, curr) => prev + curr);
-    return count;
+    return temp;
   }
 
+  function digAdjacent(tile, arr) {
+    let temp = getAdjacent(tile, arr);
+    temp = temp.filter((item) => !item.visible);
+    temp.forEach((item) => {
+      item.visible = true;
+      if (item.content === 0)
+        setTimeout(() => {
+          digAdjacent(item, arr);
+          setTileArray(arr);
+        }, 100);
+      setTileArray(arr);
+    });
+  }
+  function digAll() {
+    const temp = [...tileArray].map((item) => {
+      item.visible = true;
+      return item;
+    });
+    setTileArray(temp);
+  }
+  function addFlag(val) {
+    setFlagAmount(flagAmount + val);
+  }
+
+  function dig(row, col) {
+    const temp = [...tileArray];
+    const index = temp.indexOf(
+      temp.find((item) => item.col === col && item.row === row)
+    );
+    temp[index].visible = !temp[index].visible;
+    if (temp[index].content === "bomb") {
+      console.log("done");
+      digAll();
+      return;
+    }
+    if (temp[index].content === 0) digAdjacent(temp[index], temp);
+    else setTileArray(temp);
+  }
   return (
     <div>
       <h1>Board</h1>
+      <h2>
+        Flags: {flagAmount}, Bombs: {bombAmount}
+      </h2>
       <table>
         <tbody>
           {new Array(rows).fill(0).map((val, i) => (
@@ -62,6 +107,8 @@ function Board({ rows, cols }) {
                       tile={tileArray.find(
                         (item) => item.row === i && item.col === j
                       )}
+                      addFlag={addFlag}
+                      dig={dig}
                     />
                   )}
                 </td>

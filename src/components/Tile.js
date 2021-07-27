@@ -1,9 +1,11 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 
-function Tile({ row, col }) {
+function Tile({ tile }) {
+  const [visible, setVisible] = useState(false);
+
   return (
-    <div>
-      <h1>Tile {row + 1 + "X" + (col + 1)}</h1>
+    <div className="tile">
+      <h1>{tile.content}</h1>
     </div>
   );
 }

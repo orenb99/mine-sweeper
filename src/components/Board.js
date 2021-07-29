@@ -51,18 +51,17 @@ function Board({ rows, cols }) {
   }
 
   function digAdjacent(tile, arr) {
-    let temp = getAdjacent(tile, arr);
-    temp = temp.filter((item) => !item.visible);
-    temp.forEach((item) => {
-      item.visible = true;
-      if (item.content === 0)
-        setTimeout(() => {
-          digAdjacent(item, arr);
-          setTileArray(arr);
-        }, 50);
-      setTileArray(arr);
-    });
+    let clean = [tile];
+    while (clean.length !== 0) {
+      let p = clean.pop();
+      console.log(p);
+      if (!p.visible) p.visible = true;
+      if (p.content !== 0) continue;
+      let adj = getAdjacent(p, arr).filter((item) => !item.visible);
+      clean = clean.concat(adj);
+    }
   }
+
   function digAll() {
     const temp = [...tileArray].map((item) => {
       item.visible = true;
@@ -86,7 +85,7 @@ function Board({ rows, cols }) {
       return;
     }
     if (temp[index].content === 0) digAdjacent(temp[index], temp);
-    else setTileArray(temp);
+    setTileArray(temp);
   }
   return (
     <div>

@@ -7,11 +7,11 @@ function Board({ rows, cols }) {
 
   useEffect(() => {
     let arr = [];
-    let bombs = Math.floor((rows * cols) / 15);
+    let bombs = Math.floor((rows * cols) / 50);
     let bombCount = 0;
     for (let i = 0; i < rows; i++) {
       for (let j = 0; j < cols; j++) {
-        let item = { row: i, col: j, bomb: false, visible: false };
+        let item = { row: i, col: j, bomb: false, visible: false, flag: false };
         arr.push(item);
       }
     }
@@ -31,6 +31,16 @@ function Board({ rows, cols }) {
     setTileArray(arr);
   }, []);
 
+  useEffect(() => {
+    let temp = [...tileArray].filter((item) => item.flag);
+    setFlagAmount(temp.length);
+  }, [tileArray]);
+
+  useEffect(() => {
+    let checkWin = [...tileArray].filter((item) => item.bomb && item.flag);
+    if (checkWin.length === bombAmount) console.log("You Win!");
+  }, [flagAmount]);
+
   function checkAdjacent(tile, arr) {
     if (tile.bomb) return "bomb";
     const temp = getAdjacent(tile, arr);
@@ -39,6 +49,7 @@ function Board({ rows, cols }) {
       .reduce((prev, curr) => prev + curr);
     return count;
   }
+
   function getAdjacent(tile, arr) {
     const row = tile.row;
     const col = tile.col;
@@ -54,23 +65,55 @@ function Board({ rows, cols }) {
     let clean = [tile];
     while (clean.length !== 0) {
       let p = clean.pop();
-      console.log(p);
-      if (!p.visible) p.visible = true;
+      if (!p.visible) {
+        p.visible = true;
+        p.flag = false;
+      }
       if (p.content !== 0) continue;
       let adj = getAdjacent(p, arr).filter((item) => !item.visible);
       clean = clean.concat(adj);
     }
   }
 
-  function digAll() {
+  function quickDig(tile) {
+    let arr = [...tileArray];
+    let adj = getAdjacent(tile, arr);
+    let flags = adj.filter((item) => item.flag).length;
+    if (flags === tile.content) {
+      if (adj.find((item) => item.bomb && !item.flag)) {
+        endGame();
+        return;
+      }
+      adj.forEach((item) => {
+        if (!item.bomb) {
+          item.flag = false;
+          item.visible = true;
+        }
+        return item;
+      });
+      setTileArray(arr);
+    } else {
+      console.log(
+        "Surrounding flags need to be equal to the tile's number to dig all surroundings"
+      );
+    }
+  }
+
+  function endGame() {
+    console.log("done");
     const temp = [...tileArray].map((item) => {
       item.visible = true;
       return item;
     });
     setTileArray(temp);
   }
-  function addFlag(val) {
-    setFlagAmount(flagAmount + val);
+  function addFlag(tile) {
+    let temp = [...tileArray];
+    let index = temp.indexOf(
+      temp.find((item) => tile.col === item.col && item.row === tile.row)
+    );
+    temp[index].flag = !temp[index].flag;
+    setTileArray(temp);
   }
 
   function dig(row, col) {
@@ -79,12 +122,16 @@ function Board({ rows, cols }) {
       temp.find((item) => item.col === col && item.row === row)
     );
     temp[index].visible = !temp[index].visible;
+    temp[index].flag = false;
     if (temp[index].content === "bomb") {
-      console.log("done");
-      digAll();
+      endGame();
       return;
     }
     if (temp[index].content === 0) digAdjacent(temp[index], temp);
+    temp.forEach((item) => {
+      if (item.visible) item.flag = false;
+      return item;
+    });
     setTileArray(temp);
   }
   return (
@@ -108,6 +155,7 @@ function Board({ rows, cols }) {
                       )}
                       addFlag={addFlag}
                       dig={dig}
+                      quickDig={quickDig}
                     />
                   )}
                 </td>

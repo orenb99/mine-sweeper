@@ -1,24 +1,28 @@
 import React, { useState, useEffect } from "react";
 
-function Tile({ tile, addFlag, dig }) {
-  const [flagged, setFlagged] = useState(false);
-
+function Tile({ tile, addFlag, dig, quickDig }) {
   const flag = (e) => {
     e.preventDefault();
-    if (flagged) addFlag(-1);
-    else addFlag(1);
-    setFlagged(!flagged);
+    addFlag(tile);
   };
 
   return tile.visible ? (
-    <button className="tile upside">{tile.content}</button>
+    <button
+      className="tile upside"
+      onContextMenu={(e) => {
+        e.preventDefault();
+        quickDig(tile);
+      }}
+    >
+      {tile.content}
+    </button>
   ) : (
     <button
       className="tile downside"
       onClick={() => dig(tile.row, tile.col)}
       onContextMenu={flag}
     >
-      {flagged ? "flag" : "X"}
+      {tile.flag ? "flag" : "X"}
     </button>
   );
 }

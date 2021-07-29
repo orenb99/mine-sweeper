@@ -5,7 +5,7 @@ function App() {
   return (
     <div className="App">
       <h1>Mine Sweeper</h1>
-      <Board rows={10} cols={20} />
+      <Board rows={20} cols={30} />
       <Timer />
     </div>
   );

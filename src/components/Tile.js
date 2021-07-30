@@ -8,13 +8,13 @@ function Tile({ tile, addFlag, dig, quickDig }) {
 
   return tile.visible ? (
     <button
-      className="tile upside"
+      className={"tile upside n" + tile.content}
       onContextMenu={(e) => {
         e.preventDefault();
         quickDig(tile);
       }}
     >
-      {tile.content}
+      {tile.content !== 0 ? tile.content : ""}
     </button>
   ) : (
     <button
@@ -22,7 +22,7 @@ function Tile({ tile, addFlag, dig, quickDig }) {
       onClick={() => dig(tile.row, tile.col)}
       onContextMenu={flag}
     >
-      {tile.flag ? "flag" : "X"}
+      {tile.flag ? "flag" : ""}
     </button>
   );
 }

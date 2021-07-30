@@ -1,0 +1,34 @@
+.tile {
+  background-color: rgb(112, 112, 112);
+  width: 30px;
+  height: 30px;
+  font-size: 1.3rem;
+  font-weight: bold;
+  &.upside {
+    background-color: rgb(192, 192, 192);
+    &.n1 {
+      color: green;
+    }
+    &.n2 {
+      color: red;
+    }
+    &.n3 {
+      color: blue;
+    }
+    &.n4 {
+      color: black;
+    }
+    &.n5 {
+      color: yellow;
+    }
+    &.n6 {
+      color: lightblue;
+    }
+    &.n7 {
+      color: rgb(109, 16, 16);
+    }
+    &.n8 {
+      color: purple;
+    }
+  }
+}

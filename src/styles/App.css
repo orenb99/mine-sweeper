@@ -1,8 +1,44 @@
 .tile {
-  background-color: green;
+  background-color: #707070;
+  width: 30px;
+  height: 30px;
+  font-size: 1.3rem;
+  font-weight: bold;
 }
 
 .tile.upside {
-  background-color: red;
+  background-color: silver;
+}
+
+.tile.upside.n1 {
+  color: green;
+}
+
+.tile.upside.n2 {
+  color: red;
+}
+
+.tile.upside.n3 {
+  color: blue;
+}
+
+.tile.upside.n4 {
+  color: black;
+}
+
+.tile.upside.n5 {
+  color: yellow;
+}
+
+.tile.upside.n6 {
+  color: lightblue;
+}
+
+.tile.upside.n7 {
+  color: #6d1010;
+}
+
+.tile.upside.n8 {
+  color: purple;
 }
 /*# sourceMappingURL=App.css.map */

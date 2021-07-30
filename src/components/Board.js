@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from "react";
 import Tile from "./Tile";
-function Board({ rows, cols }) {
+function Board({ rows, cols, setOver }) {
   const [tileArray, setTileArray] = useState([]);
   const [bombAmount, setBombAmount] = useState(0);
   const [flagAmount, setFlagAmount] = useState(0);
 
   useEffect(() => {
     let arr = [];
-    let bombs = Math.floor((rows * cols) / 50);
+    let bombs = Math.floor((rows * cols) / 8);
     let bombCount = 0;
     for (let i = 0; i < rows; i++) {
       for (let j = 0; j < cols; j++) {
@@ -37,8 +37,13 @@ function Board({ rows, cols }) {
   }, [tileArray]);
 
   useEffect(() => {
-    let checkWin = [...tileArray].filter((item) => item.bomb && item.flag);
-    if (checkWin.length === bombAmount) console.log("You Win!");
+    let flaggedBombs = [...tileArray].filter((item) => item.bomb && item.flag);
+    let rest = [...tileArray].filter((item) => !item.bomb && !item.flag);
+    if (
+      flaggedBombs.length === bombAmount &&
+      rest.length + flaggedBombs.length === tileArray.length
+    )
+      console.log("You Win!");
   }, [flagAmount]);
 
   function checkAdjacent(tile, arr) {
@@ -100,12 +105,14 @@ function Board({ rows, cols }) {
   }
 
   function endGame() {
-    console.log("done");
     const temp = [...tileArray].map((item) => {
       item.visible = true;
       return item;
     });
     setTileArray(temp);
+    setTimeout(() => {
+      setOver(true);
+    }, 5000);
   }
   function addFlag(tile) {
     let temp = [...tileArray];

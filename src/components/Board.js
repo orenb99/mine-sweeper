@@ -26,7 +26,6 @@ function Board({
     }
 
     while (bombCount < bombs) {
-      if (over) return;
       let rnd = Math.floor(Math.random() * arr.length);
       if (!arr[rnd].bomb) {
         arr[rnd].bomb = true;
@@ -96,7 +95,7 @@ function Board({
     let arr = [...tileArray];
     let adj = getAdjacent(tile, arr);
     let flags = adj.filter((item) => item.flag).length;
-    if (flags === tile.content) {
+    if (flags >= tile.content) {
       if (adj.find((item) => item.bomb && !item.flag)) {
         endGame(false);
         return;
@@ -112,10 +111,6 @@ function Board({
         return item;
       });
       setTileArray(arr);
-    } else {
-      setAlertMessage(
-        "Surrounding flags need to be equal to the tile's number to dig all surroundings"
-      );
     }
   }
 
@@ -124,7 +119,7 @@ function Board({
       item.visible = true;
       return item;
     });
-    setTileArray(temp);
+    if (!win) setTileArray(temp);
     setWin(win);
     setAlertMessage("You " + (win ? "Win!" : "Lose!"));
     setOver(true);

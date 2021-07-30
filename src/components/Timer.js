@@ -33,7 +33,6 @@ function Timer({ over, started, setFinishTime }) {
   }, [over]);
   return (
     <div>
-      <h1>Timer</h1>
       <h1>{`${hrs < 10 ? "0" : ""}${hrs}:${mins < 10 ? "0" : ""}${mins}:${
         secs < 10 ? "0" : ""
       }${secs}`}</h1>

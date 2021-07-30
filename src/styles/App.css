@@ -4,6 +4,7 @@
   height: 30px;
   font-size: 1.3rem;
   font-weight: bold;
+  overflow: hidden;
 }
 
 .tile.upside {
@@ -40,5 +41,97 @@
 
 .tile.upside.n8 {
   color: purple;
+}
+
+.pop-up {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+
+.pop-up > .pop-up-inner {
+  text-align: center;
+  width: 50%;
+  height: -webkit-fit-content;
+  height: -moz-fit-content;
+  height: fit-content;
+  background-color: white;
+  margin: auto;
+  padding: 20px;
+}
+
+.pop-up > .pop-up-inner .chosen {
+  font-size: 45px;
+  color: royalblue;
+}
+
+.pop-up > .pop-up-inner u {
+  font-size: 40px;
+  font-weight: bolder;
+}
+
+.pop-up > .pop-up-inner span {
+  margin: 10px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  width: 80 .pop-up > .pop-up-inner span;
+  -webkit-box-pack: space-evenly;
+      -ms-flex-pack: space-evenly;
+          justify-content: space-evenly;
+  font-size: 35px;
+  cursor: pointer;
+}
+
+.pop-up > .pop-up-inner span b:hover {
+  color: green;
+}
+
+.pop-up > .pop-up-inner .start-button {
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
+  width: fit-content;
+  margin: auto;
+  background-color: red;
+  padding: 10px;
+  font-weight: bolder;
+  border: 3px solid;
+  border-radius: 10px;
+  font-size: 40px;
+  cursor: pointer;
+}
+
+.App {
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
+  width: fit-content;
+  height: -webkit-fit-content;
+  height: -moz-fit-content;
+  height: fit-content;
+}
+
+.App .alert-message {
+  position: fixed;
+  background-color: red;
+  top: 0;
+  right: 0;
+  font-size: 40px;
+  padding: 10px;
+  border: solid black 4px;
+  border-top-left-radius: 5px;
+  border-bottom-left-radius: 5px;
 }
 /*# sourceMappingURL=App.css.map */

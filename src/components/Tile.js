@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-
 function Tile({ tile, addFlag, dig, quickDig }) {
   const flag = (e) => {
     e.preventDefault();
@@ -14,7 +13,7 @@ function Tile({ tile, addFlag, dig, quickDig }) {
         quickDig(tile);
       }}
     >
-      {tile.content !== 0 ? tile.content : ""}
+      {tile.bomb ? "💣" : tile.content !== 0 ? tile.content : ""}
     </button>
   ) : (
     <button
@@ -22,7 +21,7 @@ function Tile({ tile, addFlag, dig, quickDig }) {
       onClick={() => dig(tile.row, tile.col)}
       onContextMenu={flag}
     >
-      {tile.flag ? "flag" : ""}
+      {tile.flag ? "🚩" : ""}
     </button>
   );
 }

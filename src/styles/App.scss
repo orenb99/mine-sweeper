@@ -1,1 +1,18 @@
 @import "./Tile";
+@import "./Board";
+@import "./Popup";
+.App {
+  width: fit-content;
+  height: fit-content;
+  .alert-message {
+    position: fixed;
+    background-color: red;
+    top: 0;
+    right: 0;
+    font-size: 40px;
+    padding: 10px;
+    border: solid black 4px;
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+  }
+}

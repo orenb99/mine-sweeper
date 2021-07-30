@@ -1,13 +1,22 @@
 import React, { useState, useEffect } from "react";
 import Tile from "./Tile";
-function Board({ rows, cols, setOver }) {
+function Board({
+  over,
+  rows,
+  cols,
+  setOver,
+  setAlertMessage,
+  difficulty,
+  setWin,
+}) {
   const [tileArray, setTileArray] = useState([]);
   const [bombAmount, setBombAmount] = useState(0);
   const [flagAmount, setFlagAmount] = useState(0);
 
   useEffect(() => {
+    if (over) return;
     let arr = [];
-    let bombs = Math.floor((rows * cols) / 8);
+    let bombs = Math.floor((rows * cols) / difficulty);
     let bombCount = 0;
     for (let i = 0; i < rows; i++) {
       for (let j = 0; j < cols; j++) {
@@ -17,6 +26,7 @@ function Board({ rows, cols, setOver }) {
     }
 
     while (bombCount < bombs) {
+      if (over) return;
       let rnd = Math.floor(Math.random() * arr.length);
       if (!arr[rnd].bomb) {
         arr[rnd].bomb = true;
@@ -29,7 +39,7 @@ function Board({ rows, cols, setOver }) {
     });
     setBombAmount(bombs);
     setTileArray(arr);
-  }, []);
+  }, [over]);
 
   useEffect(() => {
     let temp = [...tileArray].filter((item) => item.flag);
@@ -37,14 +47,16 @@ function Board({ rows, cols, setOver }) {
   }, [tileArray]);
 
   useEffect(() => {
+    if (bombAmount === 0) return;
     let flaggedBombs = [...tileArray].filter((item) => item.bomb && item.flag);
-    let rest = [...tileArray].filter((item) => !item.bomb && !item.flag);
+    let rest = [...tileArray].filter((item) => !item.bomb && item.visible);
     if (
       flaggedBombs.length === bombAmount &&
       rest.length + flaggedBombs.length === tileArray.length
-    )
-      console.log("You Win!");
-  }, [flagAmount]);
+    ) {
+      endGame(true);
+    }
+  }, [flagAmount, tileArray]);
 
   function checkAdjacent(tile, arr) {
     if (tile.bomb) return "bomb";
@@ -86,11 +98,14 @@ function Board({ rows, cols, setOver }) {
     let flags = adj.filter((item) => item.flag).length;
     if (flags === tile.content) {
       if (adj.find((item) => item.bomb && !item.flag)) {
-        endGame();
+        endGame(false);
         return;
       }
       adj.forEach((item) => {
         if (!item.bomb) {
+          if (item.content === 0) {
+            digAdjacent(item, arr);
+          }
           item.flag = false;
           item.visible = true;
         }
@@ -98,21 +113,21 @@ function Board({ rows, cols, setOver }) {
       });
       setTileArray(arr);
     } else {
-      console.log(
+      setAlertMessage(
         "Surrounding flags need to be equal to the tile's number to dig all surroundings"
       );
     }
   }
 
-  function endGame() {
+  function endGame(win) {
     const temp = [...tileArray].map((item) => {
       item.visible = true;
       return item;
     });
     setTileArray(temp);
-    setTimeout(() => {
-      setOver(true);
-    }, 5000);
+    setWin(win);
+    setAlertMessage("You " + (win ? "Win!" : "Lose!"));
+    setOver(true);
   }
   function addFlag(tile) {
     let temp = [...tileArray];
@@ -131,7 +146,7 @@ function Board({ rows, cols, setOver }) {
     temp[index].visible = !temp[index].visible;
     temp[index].flag = false;
     if (temp[index].content === "bomb") {
-      endGame();
+      endGame(false);
       return;
     }
     if (temp[index].content === 0) digAdjacent(temp[index], temp);
@@ -142,8 +157,7 @@ function Board({ rows, cols, setOver }) {
     setTileArray(temp);
   }
   return (
-    <div>
-      <h1>Board</h1>
+    <div className="board" onContextMenu={(e) => e.preventDefault()}>
       <h2>
         Flags: {flagAmount}, Bombs: {bombAmount}
       </h2>

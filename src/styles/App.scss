@@ -1,9 +1,17 @@
 @import "./Tile";
 @import "./Board";
 @import "./Popup";
+body {
+  overflow-x: hidden;
+}
 .App {
-  width: fit-content;
-  height: fit-content;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 100vw;
+  min-height: 100vh;
+  background-color: rgb(188, 219, 229);
+  text-align: center;
   .alert-message {
     position: fixed;
     background-color: red;

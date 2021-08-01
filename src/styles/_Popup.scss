@@ -9,10 +9,11 @@
   flex-direction: column;
   justify-content: center;
   & > .pop-up-inner {
+    border-radius: 10px;
     text-align: center;
     width: 50%;
     height: fit-content;
-    background-color: white;
+    background-color: rgb(188, 219, 229);
     margin: auto;
     padding: 20px;
     .chosen {
@@ -32,15 +33,15 @@
       cursor: pointer;
       b {
         &:hover {
-          color: green;
+          color: white;
         }
       }
     }
     .start-button {
       width: fit-content;
       margin: auto;
-      background-color: red;
-      padding: 10px;
+      background-color: rgb(161, 211, 228);
+      padding: 5px 10px 5px 10px;
       font-weight: bolder;
       border: 3px solid;
       border-radius: 10px;

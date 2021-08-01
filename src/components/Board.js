@@ -121,7 +121,6 @@ function Board({
     });
     if (!win) setTileArray(temp);
     setWin(win);
-    setAlertMessage("You " + (win ? "Win!" : "Lose!"));
     setOver(true);
   }
   function addFlag(tile) {
@@ -152,11 +151,11 @@ function Board({
     setTileArray(temp);
   }
   return (
-    <div className="board" onContextMenu={(e) => e.preventDefault()}>
+    <div className="board">
       <h2>
         Flags: {flagAmount}, Bombs: {bombAmount}
       </h2>
-      <table>
+      <table className="tile-table" onContextMenu={(e) => e.preventDefault()}>
         <tbody>
           {new Array(rows).fill(0).map((val, i) => (
             <tr className="row">

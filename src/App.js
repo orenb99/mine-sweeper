@@ -36,17 +36,19 @@ function App() {
   return (
     <div className="App">
       {alertMessage && <div className="alert-message">{alertMessage}</div>}
-      <Timer over={over} started={started} setFinishTime={setFinishTime} />
       {started && (
-        <Board
-          over={over}
-          rows={size[0]}
-          cols={size[1]}
-          difficulty={difficulty}
-          setOver={setOver}
-          setAlertMessage={setAlertMessage}
-          setWin={setWin}
-        />
+        <>
+          <Timer over={over} started={started} setFinishTime={setFinishTime} />
+          <Board
+            over={over}
+            rows={size[0]}
+            cols={size[1]}
+            difficulty={difficulty}
+            setOver={setOver}
+            setAlertMessage={setAlertMessage}
+            setWin={setWin}
+          />
+        </>
       )}
       {(over || !started) && (
         <Popup

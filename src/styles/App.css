@@ -43,6 +43,16 @@
   color: purple;
 }
 
+.board {
+  margin: auto;
+}
+
+.board .tile-table {
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
+  width: fit-content;
+}
+
 .pop-up {
   position: fixed;
   top: 0;
@@ -63,12 +73,13 @@
 }
 
 .pop-up > .pop-up-inner {
+  border-radius: 10px;
   text-align: center;
   width: 50%;
   height: -webkit-fit-content;
   height: -moz-fit-content;
   height: fit-content;
-  background-color: white;
+  background-color: #bcdbe5;
   margin: auto;
   padding: 20px;
 }
@@ -97,7 +108,7 @@
 }
 
 .pop-up > .pop-up-inner span b:hover {
-  color: green;
+  color: white;
 }
 
 .pop-up > .pop-up-inner .start-button {
@@ -105,8 +116,8 @@
   width: -moz-fit-content;
   width: fit-content;
   margin: auto;
-  background-color: red;
-  padding: 10px;
+  background-color: #a1d3e4;
+  padding: 5px 10px 5px 10px;
   font-weight: bolder;
   border: 3px solid;
   border-radius: 10px;
@@ -114,13 +125,25 @@
   cursor: pointer;
 }
 
+body {
+  overflow-x: hidden;
+}
+
 .App {
-  width: -webkit-fit-content;
-  width: -moz-fit-content;
-  width: fit-content;
-  height: -webkit-fit-content;
-  height: -moz-fit-content;
-  height: fit-content;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  width: 100vw;
+  min-height: 100vh;
+  background-color: #bcdbe5;
+  text-align: center;
 }
 
 .App .alert-message {
